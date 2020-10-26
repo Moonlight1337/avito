@@ -7,7 +7,6 @@ require_once 'Logic/Subject.php';
 
 
 if($_POST['name']){
-    //$sub = new \Logic\Subject($_POST['subject']);
     Logic\SubscribePage::getConfPage();
 }
 elseif ($_POST['conf_code']){

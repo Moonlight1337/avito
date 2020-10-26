@@ -3,45 +3,31 @@
 
 namespace Logic;
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-//require '../vendor/autoload.php';
-
 class SendEmail
 {
-    protected $mail;
+    protected $from;
     function __construct()
     {
-        try{
-            $this->mail = new PHPMailer(true);
-            $this->mail->SMTPDebug = 3;                                 // Enable verbose debug output
-            $this->mail->isMail();                                      // Set mailer to use SMTP
-            //$this->mail->Host = 'smtp.mail.ru';                         // Specify main and backup SMTP servers
-            //$this->mail->SMTPAuth = true;                               // Enable SMTP authentication
-            //$this->mail->Username = 'digitames@mail.ru';                // SMTP username
-            //$this->mail->Password = 'gameportal2018';                   // SMTP password
-            //$this->mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            //this->mail->Port = 587;                                    // TCP port to connect to
-            $this->mail->CharSet = "UTF-8";
-            $this->mail->setFrom('digitames@mail.ru', 'Digitames');
-            $this->mail->isHTML(true);                                  // Set email format to HTML
-        }
-        catch(Exception $e) {
-            echo 'Message could not be sent. Mailer Error: ', $this->mail->ErrorInfo;
-        }
+            ini_set( 'display_errors', 1 );
+            error_reporting( E_ALL );
+            $this->from = "test@avito.ru;";
     }
 
     function SendConfirmationCode($email, $code)
     {
-        try{
-            $this->mail->addAddress($email, 'Dear Guest');
-            $this->mail->Subject = 'Код подтверждения';
-            $this->mail->Body    = 'Ваш код подтверждения:'.$code;
-            $this->mail->send();
-        }
-        catch(Exception $e) {
-            echo 'Message could not be sent. Mailer Error: ', $this->mail->ErrorInfo;
-        }
+            $to = $email;
+            $subject = 'Код подтверждения';
+            $message = 'Ваш код подтверждения:'.$code;
+            $headers = "From:" . $this->from;
+            mail($to,$subject,$message, $headers);
+    }
+
+    function SendPriceUpdateEmail($pos){
+            $to = $pos['email'];
+            $subject = 'Цена на товар обновилась';
+            $message = 'Уважаемый '.$pos['name'].' у товара '.$pos['pos_name'].' обновилась цена. Ткушая цена:'.$pos['price'].'р';
+            $headers = "From:" . $this->from;
+            mail($to,$subject,$message, $headers);
+
     }
 }
