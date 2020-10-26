@@ -25,7 +25,7 @@ class SendEmail
     function SendPriceUpdateEmail($pos){
             $to = $pos['email'];
             $subject = 'Цена на товар обновилась';
-            $message = 'Уважаемый '.$pos['name'].' у товара '.$pos['pos_name'].' обновилась цена. Ткушая цена:'.$pos['price'].'р';
+            $message = 'Уважаемый '.$pos['name'].' у товара '.$pos['pos_name'].' обновилась цена. Текущая цена:'.$pos['price'].'р';
             $headers = "From:" . $this->from;
             mail($to,$subject,$message, $headers);
 
